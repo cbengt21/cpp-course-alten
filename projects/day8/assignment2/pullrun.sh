@@ -3,6 +3,6 @@ cd ..
 cd ..
 cd ..
 git pull
-cd cpp-course-alten/projects/miniProject/
+cd projects/miniProject/
 g++ main.cpp
-a.out
+./a.out
