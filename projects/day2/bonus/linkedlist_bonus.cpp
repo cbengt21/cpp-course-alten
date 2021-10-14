@@ -25,13 +25,18 @@ void addLast(list_t *&linkedlist, const int &val){
     }
     return;
 }
-void addAtIndex(list_t *&linkedlist, const int &val, const int &index){
+void addAtIndex(list_t *linkedlist, const int &val, const int &index){
     if (linkedlist==nullptr){
         linkedlist= new list_t;
         linkedlist->value=val;
         linkedlist->next=nullptr;
     } else {
-        
+        for (int i=0; i<index ; i++){
+            if (linkedlist->next!=nullptr){
+                linkedlist=linkedlist->next;
+            }
+        }
+        linkedlist->value=val;
     }
 
 }
@@ -63,10 +68,10 @@ int main(){
     addLast(LINKED_LIST, 4);
     addLast(LINKED_LIST, 6);
 
-    print(LINKED_LIST);
-    remove(LINKED_LIST);
-    print(LINKED_LIST);
-    addAtIndex(LINKED_LIST, 7, 2);
+    //print(LINKED_LIST);
+    //remove(LINKED_LIST);
+    //print(LINKED_LIST);
+    addAtIndex(LINKED_LIST, 7, 1);
     print(LINKED_LIST);
     //TODO: delete
 
