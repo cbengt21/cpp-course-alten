@@ -38,7 +38,7 @@ void addAtIndex(list_t *linkedlist, const int &val, const int &index){
         }
         linkedlist->value=val;
     }
-
+    return;
 }
 
 void print(list_t *linkedlist){
@@ -49,6 +49,7 @@ void print(list_t *linkedlist){
         std::cout << linkedlist->value << std::endl;
         linkedlist=linkedlist->next;
     }
+    return;
 }
 void removeBeginning(list_t *&linkedlist){
     if(linkedlist==nullptr){
@@ -85,7 +86,6 @@ void removeIndex(list_t *&linkedlist, const int &index){
         delete current;
     }
     return;
-    
 }
 void reverseOrder(list_t *&LINKED_LIST){
     list_t *previous = nullptr;
@@ -101,6 +101,7 @@ void reverseOrder(list_t *&LINKED_LIST){
         current = next; 
     }
     LINKED_LIST=previous;
+    return;
 }
 
 int main(){
