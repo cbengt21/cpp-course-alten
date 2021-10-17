@@ -10,8 +10,8 @@ int main (){
     Shape *circ1 = new Circle(5);
     Shape *circ2 = new Circle(100);
 
-    Shape *triang1 = new Triangle(2,23);
-    Shape *triang2 = new Triangle(3,5);
+    Shape *triang1 = new Triangle(2,2);
+    Shape *triang2 = new Triangle(3,3);
 
     Shape *rectangle1 = new Rectangle(23,1);
     Shape *rectangle2 = new Rectangle(2,1);

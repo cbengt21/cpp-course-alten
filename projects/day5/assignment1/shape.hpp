@@ -1,3 +1,6 @@
+#ifndef SHAPE_HPP_
+#define SHAPE_HPP_
+
 #include <iostream>
 #include <cmath>
 
@@ -7,7 +10,7 @@ private:
     int perimeter =0;
 public:    
     Shape()=default;
-    Shape(const int &p,const int &a): area(a), perimeter(p){}
+    Shape(const int &p,const int &a): perimeter(p), area(a){}
     virtual ~Shape () = 0;
     bool operator == (const Shape& s);
     bool operator < (const Shape& s);
@@ -34,3 +37,5 @@ public:
     ~Rectangle() = default;
     Rectangle(const int &width, const int &height):Shape((2*width) + (2*height), width*height){}
 };
+
+#endif
