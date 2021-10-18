@@ -1,11 +1,11 @@
 #ifndef WORK_PRODUCT_HPP_
 #define WORK_PRODUCT_HPP_
 
-#include "car_service_configurations.hpp"
+#include "shop.hpp"
 
-class WorkProduct {
+class WorkProduct: public Shop{
 
-    private:
+    protected:
         types::workProduct_t work_product_;
 
     public:

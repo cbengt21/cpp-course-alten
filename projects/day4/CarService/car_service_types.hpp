@@ -1,5 +1,5 @@
-#ifndef CAR_SERVICE_configurations_HPP_
-#define CAR_SERVICE_configurations_HPP_
+#ifndef CAR_SERVICE_TYPES_HPP_
+#define CAR_SERVICE_TYPES_HPP_
 #include <iostream>
 
 namespace types{

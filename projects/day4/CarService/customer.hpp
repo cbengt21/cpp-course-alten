@@ -1,10 +1,10 @@
 #ifndef CUSTOMER_HPP_
 #define CUSTOMER_HPP_
 
-#include "car_service_configurations.hpp"
+#include "shop.hpp"
 
-class Customer{
-    private:
+class Customer: public Shop{
+    protected:
         types::customerInfo_t customer_info_;
 
     public:
