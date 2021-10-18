@@ -1,6 +1,5 @@
 #ifndef CAR_SERVICE_configurations_HPP_
 #define CAR_SERVICE_configurations_HPP_
-#include <iostream>
 
 namespace types{
     typedef struct CustomerInfo{
@@ -11,9 +10,9 @@ namespace types{
 
     typedef struct WorkProduct{
         bool oilChange = false;
-        enum class ServiceType {kBigService, kSmallService, kNoService} service_type ;
-        enum class PaymentMethod {kNotKnown, kCash, kCard, kSwish, kCrypto} payment_method;
+        enum class ServiceType service_type {kBigService, kSmallService, kNoService};
+        enum class PaymentMethod {kNotKnown, kCash, kCard, kSwish, kCrypto};
     } workProduct_t;
 }
 
-#endif 
+#endif  //car_service_configurations.hpp
