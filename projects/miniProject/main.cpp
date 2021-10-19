@@ -45,7 +45,7 @@ int main(){
 
 void readTextFile(){
     std::ifstream sudokufile;
-    sudokufile.open("expert2.txt");
+    sudokufile.open("evil.txt");
 
     if (!sudokufile){
         std::cout << "Error opening the file" << std::endl;
