@@ -124,7 +124,7 @@ bool solveSudoku (){  //TODO: while findEmptyPlace || findUniquepossibleNr was u
                     sudoku_copy_[x][y]=sudoku_[x][y];
                 }
             }*/
-            print("Grid before recursion!");
+            //print("Grid before recursion!");
             if(RecursiveSearch()){
                 return true;
             }
@@ -302,7 +302,7 @@ void print(const std::string &sudokuStatus){
             for(int i = 0; i<N; i++)
                 std::cout << "---";
         }
-    std::cout << std::endl;
+        std::cout << std::endl;
     }
     return;
 }
