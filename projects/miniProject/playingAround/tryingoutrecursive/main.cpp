@@ -131,6 +131,10 @@ void CheckBox(const int &boxStartRow,const int &boxStartCol, const int &row, con
     }
     return;
 }
+bool isValidPlace(int row, int col, int num){
+    //when item not found in col, row and current 3x3 box
+    return !isPresentInRow(row, num) && !isPresentInCol(col, num) && !isPresentInBox(row - row%3 , col - col%3, num);
+}
 bool RecursiveSearch(){
     int row, col;
     
@@ -141,11 +145,11 @@ bool RecursiveSearch(){
     //find cell with least possible values:
     //findCellWithLeastPossibleNr(row, col);
     //while(checkAndFillPossibleVal(row, col));
-    CheckRow(row, col);
-    CheckCol(row, col);
-    CheckBox(row - row%3 , col - col%3, row, col);
+    //CheckRow(row, col);
+    //CheckCol(row, col);
+    //CheckBox(row - row%3 , col - col%3, row, col);
 
-    for (int num=1; num<=9; num++){
+    /*for (int num=1; num<=9; num++){
         if (sudoku_[row][col].arrPossibleValues[num-1]==true){
             sudoku_[row][col].value=num;
             std::cout << row << "\t" << col <<"  writing value"<< "\n";
@@ -154,6 +158,17 @@ bool RecursiveSearch(){
             }    
             sudoku_[row][col].value = 0;   
             std::cout << row << "\t" << col <<"  reseting value"<< "\n";
+        }
+    }*/
+    for (int num=1; num<=9; num++){
+        if (isValidPlace(row, col, num)){
+            sudoku_[row][col].value=num;
+            //std::cout << row << "\t" << col <<"  writing value"<< "\n";
+            if(RecursiveSearch()){
+                return true;
+            }    
+            sudoku_[row][col].value = 0;   
+            //std::cout << row << "\t" << col <<"  reseting value"<< "\n";
         }
     }
 
