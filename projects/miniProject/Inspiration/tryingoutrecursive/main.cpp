@@ -74,35 +74,6 @@ void findCellWithLeastPossibleNr(int &row, int &col){
     }
     return;
 }
-
-bool RecursiveSearch(){
-    int row, col;
-    
-    
-    if (!loopThroughCells())
-        return true;
-    
-    //find cell with least possible values:
-    findCellWithLeastPossibleNr(row, col);
-
-    return false;
-}
-
-bool solveSudoku (){  //TODO: while findEmptyPlace || findUniquepossibleNr was unsuccessful, continue altering 
-    while (findEmptyPlace()){
-        if(!checkForUniqueNr()){ //if no unique nr was found then dead end and no reason to continue, puzzle not possible to solve with the two ways.
-            for(int x=0;x<9;x++){   //copy start grid
-                for(int y=0;y<9;y++){
-                    sudoku_copy_[x][y]=sudoku_[x][y];
-                }
-            }
-            RecursiveSearch();
-            return false;
-        }
-    }
-    return true;
-}
-
 bool loopThroughCells(){
     for (int row=0; row < 9; row++) // go through sudoku to see if there is empty cells.
     {
@@ -119,6 +90,92 @@ bool loopThroughCells(){
         }
     }
     return false;
+}
+bool CheckIfEmptyCells(int &row, int &col){
+    for (row=0; row < 9; row++) // go through sudoku to see if there is empty cells.
+    {
+        for (col = 0; col < 9; col++)
+        {
+            if (sudoku_[row][col].value==0){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void CheckRow(const int &row, const int &col){
+    for (int i=0;i<9;i++){
+        if (sudoku_[row][i].value!=0){
+            sudoku_[row][col].arrPossibleValues[sudoku_[row][i].value-1]=false;
+        }
+    }
+    return;
+}
+void CheckCol(const int &row, const int &col){
+    for (int i=0;i<9;i++){
+        if (sudoku_[i][col].value!=0){
+            sudoku_[row][col].arrPossibleValues[sudoku_[i][col].value-1]=false;
+        }
+    }
+    return;
+}
+void CheckBox(const int &boxStartRow,const int &boxStartCol, const int &row, const int &col){
+    for (int row = 0; row < 3; row++)
+    {
+        for (int col = 0; col < 3; col++)
+        {
+            if (sudoku_[row+boxStartRow][col+boxStartCol].value != 0){
+                sudoku_[row][col].arrPossibleValues[sudoku_[row+boxStartRow][col+boxStartCol].value-1]=false;
+            }
+        }
+    }
+    return;
+}
+bool RecursiveSearch(){
+    int row, col;
+    
+    
+    if (!CheckIfEmptyCells(row, col))
+        return true;
+    
+    //find cell with least possible values:
+    //findCellWithLeastPossibleNr(row, col);
+    //while(checkAndFillPossibleVal(row, col));
+    CheckRow(row, col);
+    CheckCol(row, col);
+    CheckBox(row - row%3 , col - col%3, row, col);
+
+    for (int num=1; num<=9; num++){
+        if (sudoku_[row][col].arrPossibleValues[num-1]==true){
+            sudoku_[row][col].value=num;
+            std::cout << row << "\t" << col <<"  writing value"<< "\n";
+            if(RecursiveSearch()){
+                return true;
+            }    
+            sudoku_[row][col].value = 0;   
+            std::cout << row << "\t" << col <<"  reseting value"<< "\n";
+        }
+    }
+
+    return false;
+}
+
+bool solveSudoku (){  //TODO: while findEmptyPlace || findUniquepossibleNr was unsuccessful, continue altering 
+    while (findEmptyPlace()){
+        if(!checkForUniqueNr()){ //if no unique nr was found then dead end and no reason to continue, puzzle not possible to solve with the two ways.
+            /*for(int x=0;x<9;x++){   //copy start grid
+                for(int y=0;y<9;y++){
+                    sudoku_copy_[x][y]=sudoku_[x][y];
+                }
+            }*/
+            print("Grid before recursion!");
+            if(RecursiveSearch()){
+                return true;
+            }
+            return false;
+        }
+    }
+    return true;
 }
 
 bool findEmptyPlace(){ //returns false if no empty place
@@ -159,6 +216,7 @@ bool checkAndFillPossibleVal(const int &row, const int &col){ //Check cell for p
     }
     return false;
 }
+
 
 bool checkForUniqueNr(){
     //1) loop through row, cell and box for unique nr. Return true if unique nr found.
