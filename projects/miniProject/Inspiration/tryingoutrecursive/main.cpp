@@ -11,6 +11,7 @@ typedef struct Cell {
 
 Cell_t sudoku_[9][9];
 int nrOfEmptyCells = 0;
+Cell_t sudoku_copy_[9][9];
 
 bool solveSudoku();
 void print(const std::string &sudokuStatus);
@@ -24,6 +25,7 @@ bool checkForUniqueNr();
 bool isUniqueInCol(const int &col,const int &rowSkip, const int &num);
 bool isUniqueInRow(const int &row, const int &colSkip, const int &num);
 bool isUniqueInBox(const int &boxStartRow, const int &boxStartCol,const int &rowSkip,const int &colSkip, const int &num);
+bool RecursiveSearch();
 
 int main(){
 
@@ -40,7 +42,7 @@ int main(){
 
 void readTextFile(){
     std::ifstream sudokufile;
-    sudokufile.open("expert2.txt");
+    sudokufile.open("evil.txt");
 
     if (!sudokufile){
         std::cout << "Error opening the file" << std::endl;
@@ -55,23 +57,59 @@ void readTextFile(){
     }
     return;
 }
+void findCellWithLeastPossibleNr(int &row, int &col){
+    int nrofvalue=9;
 
+    for(int i = 0;i<9;i++)
+    {
+        for(int j=0;j<9;j++){
+            if(sudoku_[i][j].value==0){
+                if(sudoku_[i][j].nrOfPossibleValues<nrofvalue){
+                    nrofvalue = sudoku_[i][j].nrOfPossibleValues;
+                    row =i;
+                    col=j;
+                }
+            }
+        }
+    }
+    return;
+}
+
+bool RecursiveSearch(){
+    int row, col;
+    
+    
+    if (!loopThroughCells())
+        return true;
+    
+    //find cell with least possible values:
+    findCellWithLeastPossibleNr(row, col);
+
+    return false;
+}
 
 bool solveSudoku (){  //TODO: while findEmptyPlace || findUniquepossibleNr was unsuccessful, continue altering 
     while (findEmptyPlace()){
         if(!checkForUniqueNr()){ //if no unique nr was found then dead end and no reason to continue, puzzle not possible to solve with the two ways.
+            for(int x=0;x<9;x++){   //copy start grid
+                for(int y=0;y<9;y++){
+                    sudoku_copy_[x][y]=sudoku_[x][y];
+                }
+            }
+            RecursiveSearch();
             return false;
         }
     }
     return true;
 }
+
 bool loopThroughCells(){
-    for (int i=0; i < 9; i++) // go through sudoku to see if there is empty cells.
+    for (int row=0; row < 9; row++) // go through sudoku to see if there is empty cells.
     {
-        for (int j = 0; j < 9; j++)
+        for (int col = 0; col < 9; col++)
         {
-            if (sudoku_[i][j].value==0){
-                if (checkAndFillPossibleVal(i, j)==true){ // if value set, restart loop to check possible values again as i may be changed.
+            if (sudoku_[row][col].value==0){
+                if (checkAndFillPossibleVal(row, col)==true){ // if value set, restart loop to check possible values again as i may be changed.
                     nrOfEmptyCells =0;
                     return true;
                 } else {
@@ -82,7 +120,9 @@ bool loopThroughCells(){
     }
     return false;
 }
+
 bool findEmptyPlace(){ //returns false if no empty place
+    
     while(loopThroughCells());
     if (nrOfEmptyCells == 0){
         return false;
