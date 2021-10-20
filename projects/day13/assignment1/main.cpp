@@ -5,7 +5,10 @@ considered. Only, and if only both area and perimeter are equal then the objects
 #include <iostream>
 #include "shape.hpp"
 
-
+template <class myType>
+bool GetMax (myType a, myType b){
+    return (a >b? true: false);
+}
 int main (){
     Shape *circ1 = new Circle(5);
     Shape *circ2 = new Circle(100);
@@ -26,6 +29,8 @@ int main (){
             if (*shapes[i] < *shapes[j]) std::cout << i << " is less than " << j << std::endl;
         }   
     }
+
+    std::cout << GetMax<Shape, Shape>(*circ1, *circ2) << std::endl;
 
     for(size_t i=0;i<6;i++){
         delete shapes[i];
