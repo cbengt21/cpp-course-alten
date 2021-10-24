@@ -15,7 +15,7 @@ int main(){
         v[randomvalue-1] +=1;
     }
 
-    std::sort(std::begin(v), std::end(v));
+    //std::sort(std::begin(v), std::end(v));
 
     for (int i=0; i<33;i++){
         std::cout << i+1 <<" was randomized "<< v[i] << " times"<< std::endl;

@@ -1,40 +1,32 @@
-/*Implement an interface for shape, and derive circle, triangle, rectangle, square as children. Overload all three
-comparison operators to compare the shapes based on their area -- if equal then their perimeter should be
-considered. Only, and if only both area and perimeter are equal then the objects should be considered equal.*/
-
+#include "shape.h"
 #include <iostream>
-#include "shape.hpp"
 
 template <class myType>
-bool GetMax (myType a, myType b){
-    return (a >b? true: false);
+void GetMax (myType a, myType b){
+    
+    if (a > b){
+        std::cout << "a is bigger than b"<< std::endl;
+    } else{
+        std::cout << "a is NOT bigger than b"<< std::endl;
+    }
+    return;
 }
-int main (){
-    Shape *circ1 = new Circle(5);
-    Shape *circ2 = new Circle(100);
 
-    Shape *triang1 = new Triangle(2,2);
-    Shape *triang2 = new Triangle(3,3);
+int main(){
 
-    Shape *rectangle1 = new Rectangle(23,1);
-    Shape *rectangle2 = new Rectangle(2,1);
+    Rectangle rec(2,2);
+    Circle circ(2);
 
-    Shape *shapes[6] = {circ1,circ2,triang1,triang2,rectangle1,rectangle2};
+    GetMax<Shape>(rec, circ);
 
-    for (size_t i = 0; i<6;i++)
-    {
-        for (size_t j = i + 1; j < 6; j++) {
-            if (*shapes[i] > *shapes[j]) std::cout << i << " is greater than " << j << std::endl;
-            if (*shapes[i] == *shapes[j]) std::cout << i << " is equal than " << j << std::endl;
-            if (*shapes[i] < *shapes[j]) std::cout << i << " is less than " << j << std::endl;
-        }   
+
+    /*if (rec > circ){
+        std::cout << "rec is bigger than circ"<< std::endl;
+    } else{
+        std::cout << "rec is NOT bigger than circ"<< std::endl;
     }
-
-    std::cout << GetMax<Shape, Shape>(*circ1, *circ2) << std::endl;
-
-    for(size_t i=0;i<6;i++){
-        delete shapes[i];
-    }
+    rec.print();
+    circ.print();*/
 
     return 0;
 }

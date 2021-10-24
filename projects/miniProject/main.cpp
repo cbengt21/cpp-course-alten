@@ -30,10 +30,10 @@ int main(){
 
     readTextFile();
     print("Base grid!"); 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();     //start clock
     if (solveSudoku()==true){
         //TODO: check that solved puzzle is correct
-        auto stop = std::chrono::high_resolution_clock::now();
+        auto stop = std::chrono::high_resolution_clock::now();  //stop clock
         print("Solved grid!");
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
         std::cout << "\n\nTimestamp: " << duration.count() << " milliseconds\n" << std::endl;
