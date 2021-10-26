@@ -6,7 +6,7 @@ const int N = 9;
 
 typedef struct Cell {
     int value = 0;
-    bool arrPossibleValues[9] = {false, false, false, false, false, false, false, false, false};
+    bool arrPossibleValues[9] = {false, false, false, false, false, false, false, false, false}; //change to unordered set?
     int nrOfPossibleValues = 0;
 } Cell_t;
 
@@ -101,7 +101,7 @@ bool RecursiveSearch(){
             std::cout << row << "\t" << col <<"  reseting value"<< "\n";
         }
     }*/
-    for (int num=1; num<=9; num++){
+    for (int num=1; num<=9; num++){ //TODO: check if num is amongst valid values!
         if (isValidPlace(row, col, num)){
             sudoku_[row][col].value=num;
             //std::cout << row << "\t" << col <<"  writing value"<< "\n";
@@ -116,7 +116,7 @@ bool RecursiveSearch(){
     return false;
 }
 
-bool solveSudoku (){  //TODO: while findEmptyPlace || findUniquepossibleNr was unsuccessful, continue altering 
+bool solveSudoku (){ 
     while (findEmptyPlace()){
         if(!checkForUniqueNr()){ //if no unique nr was found then dead end and no reason to continue, puzzle not possible to solve with the two ways.
             /*for(int x=0;x<9;x++){   //copy start grid
@@ -165,7 +165,7 @@ bool checkAndFillPossibleVal(const int &row, const int &col){ //Check cell for p
     bool resCol = false;
     sudoku_[row][col].nrOfPossibleValues =0;
     for (int i=1; i<10; i++){
-        resBox = isPresentInBox(row - row%3 , col - col%3, i);
+        resBox = isPresentInBox(row - row%3 , col - col%3, i); //TODO: if true, continue! Also have allok if this can be replaced with isValidPlace();
         resRow = isPresentInRow(row, i);
         resCol = isPresentInCol(col, i);
         if (resBox==false && resRow==false && resCol==false){

@@ -138,7 +138,6 @@ bool isValidPlace(int row, int col, int num){
 bool RecursiveSearch(){
     int row, col;
     
-    
     if (!CheckIfEmptyCells(row, col))
         return true;
     
