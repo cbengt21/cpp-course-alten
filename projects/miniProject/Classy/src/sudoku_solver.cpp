@@ -19,7 +19,6 @@ void SudokuSolver::SetSudoku(const std::string &file){
         }
         sudoku_file.close();
     }
-    return;
 }
 bool SudokuSolver::CheckIfEmptyCells(int &row, int &col) const{
     for (row=0; row < 9; row++) // go through sudoku to see if there is empty cells.
@@ -32,10 +31,6 @@ bool SudokuSolver::CheckIfEmptyCells(int &row, int &col) const{
         }
     }
     return false;
-}
-bool SudokuSolver::IsValidPlace(const int &row, const int &col, const int &num) const{
-    //when item not found in col, row and current 3x3 box
-    return !IsPresentInRow(row, num) && !IsPresentInCol(col, num) && !IsPresentInBox(row - row%3 , col - col%3, num);
 }
 bool SudokuSolver::RecursiveSearch(){
     int row, col;
@@ -61,8 +56,8 @@ bool SudokuSolver::RecursiveSearch(){
             std::cout << row << "\t" << col <<"  reseting value"<< "\n";
         }
     }*/
-    for (int num=1; num<=9; num++){ //TODO: check if num is amongst valid values!
-        if (IsValidPlace(row, col, num)){
+    for (int num=1; num<=9; num++){
+        if (sudoku[row][col].arr_possible_values_[num-1]==true && IsValidPlace(row, col, num)){
             sudoku[row][col].value=num;
             //std::cout << row << "\t" << col <<"  writing value"<< "\n";
             if(RecursiveSearch()){
@@ -74,9 +69,12 @@ bool SudokuSolver::RecursiveSearch(){
     }
     return false;
 }
+bool SudokuSolver::IsValidPlace(const int &row, const int &col, const int &num) const{
+    return !IsPresentInRow(row, num) && !IsPresentInCol(col, num) && !IsPresentInBox(row - row%3 , col - col%3, num);
+}
 bool SudokuSolver::SolveSudoku (){ 
-    while (FindEmptyPlace()){
-        if(!CheckAndFillUniqueNr()){ //if no unique nr was found then dead end (with constraint propagation) and no reason to continue, puzzle not possible to solve with the two ways.
+    while (FindPossibleValues()){
+        if(!CheckAndFillUniqueNr()){ //if no unique nr was found then puzzle not possible to solve only with constraint propagation.
             /*for(int x=0;x<9;x++){   //copy start grid
                 for(int y=0;y<9;y++){
                     sudoku_copy_[x][y]=sudoku[x][y];
@@ -91,13 +89,21 @@ bool SudokuSolver::SolveSudoku (){
     }
     return true;
 }
-bool SudokuSolver::LoopThroughCells(){
+bool SudokuSolver::FindPossibleValues(){ //returns false if no empty place
+    while(LoopThroughEmptyCells()); // loop until no value is set anymore, then check if there is still empty cells
+    if (nr_of_empty_cells_ == 0){
+        return false;
+    } else{
+        return true;
+    }
+}
+bool SudokuSolver::LoopThroughEmptyCells(){
     for (int i=0; i < 9; i++) // go through sudoku to see if there is empty cells.
     {
         for (int j = 0; j < 9; j++)
         {
             if (sudoku[i][j].value==0){
-                if (CheckAndFillPossibleVal(i, j)==true){ // if value set, restart loop to check possible values again as i may be changed.
+                if (CheckAndFillPossibleVal(i, j)==true){ // if value set, restart loop to check possible values again as it may be changed.
                     nr_of_empty_cells_ =0;
                     return true;
                 } else {
@@ -107,14 +113,6 @@ bool SudokuSolver::LoopThroughCells(){
         }
     }
     return false;
-}
-bool SudokuSolver::FindEmptyPlace(){ //returns false if no empty place
-    while(LoopThroughCells()); // loop until no value is set anymore, then check if there is still empty cells
-    if (nr_of_empty_cells_ == 0){
-        return false;
-    } else{
-        return true;
-    }
 }
 //int setValues =0; //for debugging only
 bool SudokuSolver::CheckAndFillPossibleVal(const int &row, const int &col){ //Check cell for possible values, return true if value filled
@@ -154,7 +152,7 @@ bool SudokuSolver::CheckAndFillUniqueNr(){
                         resCol = IsUniqueInCol(col, row, num);
                         if (resBox==true || resRow==true || resCol==true){
                             sudoku[row][col].value=num; // write value if unique
-                            //std::cout << "Value was filled by CheckAndFillUniqueNr! "  << std::endl; //for debugging only
+                            //std::cout << "Value was filled by CheckAndFillUniqueNr! "  << std::endl; //debugging only
                             return true;
                         }
                     }
@@ -254,5 +252,4 @@ void SudokuSolver::Print(const std::string &sudoku_status) const{
         }
         std::cout << std::endl;
     }
-    return;
 }

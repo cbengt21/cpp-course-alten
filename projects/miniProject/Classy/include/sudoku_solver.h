@@ -6,7 +6,7 @@
 typedef struct Cell {   // keep in same file as only one type, otherwise use namespace and separate file..
     int value = 0;
     int nr_of_possible_values_ = 0;
-    bool arr_possible_values_[9] = {false, false, false, false, false, false, false, false, false}; //could be also unordered set?
+    bool arr_possible_values_[9] = {false, false, false, false, false, false, false, false, false};
 } Cell_t;
 
 
@@ -16,9 +16,9 @@ class SudokuSolver {
         int nr_of_empty_cells_ = 0;
 
         bool CheckIfEmptyCells(int &row, int &col) const;
-        bool LoopThroughCells();
+        bool LoopThroughEmptyCells();
         bool IsValidPlace(const int &row, const int &col, const int &num) const;
-        bool FindEmptyPlace();
+        bool FindPossibleValues();
         bool CheckAndFillPossibleVal(const int &row, const int &col);
         bool CheckAndFillUniqueNr();
         bool IsUniqueInCol(const int &col,const int &row_skip, const int &num) const;

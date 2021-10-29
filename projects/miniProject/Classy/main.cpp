@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <fstream>
 #include <chrono>
 #include "sudoku_solver.h"
 #include "sudoku_reader.h"
@@ -9,7 +8,6 @@ void RunSudoku (T1 a){
     a.Print("Base grid!"); 
     auto start = std::chrono::high_resolution_clock::now();
     if (a.SolveSudoku()==true){
-        //TODO: check that solved puzzle is correct
         auto stop = std::chrono::high_resolution_clock::now();
         a.Print("Solved grid!");
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -18,11 +16,9 @@ void RunSudoku (T1 a){
         std::cout << "No solution found";
         a.Print("Unsolved grid!");
     }
-    return;
 }
 
 int main(int argc, char** argv){
-    //std::string s = "..74.1.2.8.......7.....3....5....6....82.7.1.....9......4.3........8..9.6..9.41..";
 
     if (argc == 1){ //if no input file, take one from directory
         SudokuSolver S;
