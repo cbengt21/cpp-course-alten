@@ -76,7 +76,7 @@ bool SudokuSolver::RecursiveSearch(){
 }
 bool SudokuSolver::SolveSudoku (){ 
     while (FindEmptyPlace()){
-        if(!CheckAndFillUniqueNr()){ //if no unique nr was found then dead end and no reason to continue, puzzle not possible to solve with the two ways.
+        if(!CheckAndFillUniqueNr()){ //if no unique nr was found then dead end (with constraint propagation) and no reason to continue, puzzle not possible to solve with the two ways.
             /*for(int x=0;x<9;x++){   //copy start grid
                 for(int y=0;y<9;y++){
                     sudoku_copy_[x][y]=sudoku[x][y];
@@ -109,7 +109,7 @@ bool SudokuSolver::LoopThroughCells(){
     return false;
 }
 bool SudokuSolver::FindEmptyPlace(){ //returns false if no empty place
-    while(LoopThroughCells());
+    while(LoopThroughCells()); // loop until no value is set anymore, then check if there is still empty cells
     if (nr_of_empty_cells_ == 0){
         return false;
     } else{
@@ -122,7 +122,7 @@ bool SudokuSolver::CheckAndFillPossibleVal(const int &row, const int &col){ //Ch
     for (int num=1; num<10; num++){
         if (IsValidPlace(row, col, num)){
             sudoku[row][col].arr_possible_values_[num-1]=true;
-            sudoku[row][col].nr_of_possible_values_ +=1; //TODO: add pointer to the cell with fewest possible values?
+            sudoku[row][col].nr_of_possible_values_ +=1;        //add pointer to the cell with fewest possible values?
         } else{
             sudoku[row][col].arr_possible_values_[num-1]=false;
         }
